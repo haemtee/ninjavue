@@ -5,11 +5,13 @@
       <v-layout row wrap>
         <v-flex xs6 sm4 md3 lg2 v-for="person in team" :key="person.nama">
           <v-card align="center" class="text-xs-float-center ma-3">
-            <v-responsive class="pt-4">
-              <img
+            <v-responsive class="pt-4" elevation="3">
+              <v-img
+                max-height="128px"
+                max-width="128px"
                 :src="person.photo"
                 :alt="person.name"
-                class="rounded-circle"
+                class="rounded-circle grey lighten-2"
               />
             </v-responsive>
             <v-card-text>
@@ -42,7 +44,6 @@ export default {
       team: [],
     };
   },
-  methods: {},
   mounted() {
     axios
       .get("https://randomuser.me/api/?results=10&nat=us,fr,gb,au")

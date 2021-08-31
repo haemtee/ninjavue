@@ -13,6 +13,20 @@
       </v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" app class="primary">
+      <v-layout column align-center>
+        <v-flex class="mt-10">
+          <v-avatar size="120" class="grey lighten-4">
+            <img :src="profile.photo" :alt="profile.name" />
+          </v-avatar>
+          <div class="text-center white--text subtitle-1 mt-2">
+            {{ profile.name }}
+          </div>
+          <div class="text-center white--text caption mb-4">
+            {{ profile.country }}
+          </div>
+        </v-flex>
+      </v-layout>
+
       <v-list>
         <v-list-item
           v-for="link in links"
@@ -33,10 +47,17 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Navbar",
   data() {
     return {
+      profile: {
+        name: undefined,
+        photo: undefined,
+        country: undefined,
+      },
       drawer: false,
       links: [
         { icon: "mdi-view-dashboard", text: "Dashboard", route: "/" },
@@ -49,6 +70,16 @@ export default {
     toogleDrawer() {
       this.drawer = !this.drawer;
     },
+  },
+  created() {
+    axios
+      .get("https://randomuser.me/api/?nat=us,fr,gb,au")
+      .then((res) => {
+        this.profile.name = `${res.data.results[0].name.first} ${res.data.results[0].name.last}`;
+        this.profile.country = res.data.results[0].location.country;
+        this.profile.photo = res.data.results[0].picture.large;
+      })
+      .catch((err) => console.log(err));
   },
 };
 </script>
