@@ -4,17 +4,45 @@
 
     <v-container>
       <v-layout class="mb-4">
-        <v-btn small depressed color="gray" @click="sortData('title')">
-          <v-icon class="grey--text" left small>mdi-folder</v-icon>
-          <span class="caption text-lowercase grey--text">by project name</span>
-        </v-btn>
-        <v-btn small depressed color="gray" @click="sortData('person')">
-          <v-icon class="grey--text" left small>mdi-account-multiple</v-icon>
-          <span class="caption text-lowercase grey--text">by person</span>
-        </v-btn>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              small
+              depressed
+              color="gray"
+              @click="sortData('title')"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="grey--text" left small>mdi-folder</v-icon>
+              <span class="caption text-lowercase grey--text"
+                >by project name</span
+              >
+            </v-btn>
+          </template>
+          <span>Sort project by project name</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              small
+              depressed
+              color="gray"
+              @click="sortData('person')"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon class="grey--text" left small
+                >mdi-account-multiple</v-icon
+              >
+              <span class="caption text-lowercase grey--text">by person</span>
+            </v-btn>
+          </template>
+          <span>Sort project by person</span>
+        </v-tooltip>
       </v-layout>
 
-      <transition-group name="projects" tag="v-card">
+      <transition-group name="projects">
         <v-card
           flat
           v-for="project in projects"
@@ -80,7 +108,7 @@ export default {
             "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
         },
         {
-          title: "Build a backend service",
+          title: "Deploy a backend service",
           person: "Luigi",
           due: "1 August 2021",
           status: "overdue",
@@ -110,7 +138,7 @@ export default {
           due: "28 June 2021",
           status: "completed",
           content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
+            "Lorem ipsu5m dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
         },
       ],
     };
