@@ -41,8 +41,7 @@
           <span>Sort project by person</span>
         </v-tooltip>
       </v-layout>
-
-      <transition-group name="projects">
+      <transition-group name="projects" :v-if="projects.length > 0">
         <v-card
           flat
           v-for="project in projects"
@@ -84,69 +83,31 @@
 </template>
 
 <script>
+import { loadProject } from "../services/fb";
+
 export default {
   name: "Home",
 
   components: {},
   data() {
     return {
-      projects: [
-        {
-          title: "Make vue great again",
-          person: "Net Ninja",
-          due: "9 March 2021",
-          status: "completed",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
-        },
-        {
-          title: "Create a website design",
-          person: "Mario",
-          due: "10 November 2021",
-          status: "ongoing",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
-        },
-        {
-          title: "Deploy a backend service",
-          person: "Luigi",
-          due: "1 August 2021",
-          status: "overdue",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
-        },
-
-        {
-          title: "Create NextJS Project",
-          person: "Maximilan",
-          due: "25 July 2021",
-          status: "completed",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
-        },
-        {
-          title: "Learning Vuetify",
-          person: "Yang Kai",
-          due: "15 January 2022",
-          status: "ongoing",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
-        },
-        {
-          title: "Cultivating space dao",
-          person: "Nie Lie",
-          due: "28 June 2021",
-          status: "completed",
-          content:
-            "Lorem ipsu5m dolor sit amet consectetur adipisicing elit. Mollitia optio et tenetur, porro dicta repellat accusamus est? Nemo illum maxime soluta autem quos, ipsum sunt repellendus, quis consequuntur voluptatem vero.",
-        },
-      ],
+      isLoading: true,
+      projects: [],
     };
   },
   methods: {
     sortData(x) {
       this.projects.sort((a, b) => (a[x] < b[x] ? -1 : 1));
     },
+  },
+  mounted() {
+    var self = this;
+    loadProject(function(change) {
+      self.projects.push({
+        ...change.doc.data(),
+        id: change.doc.id,
+      });
+    });
   },
 };
 </script>

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, onSnapshot, addDoc } from 'firebase/firestore';
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -20,8 +20,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 
-const db = getFirestore(app);
-
 // Saves a new message to Cloud Firestore.
 export async function saveProject(project) {
     // Add a new message entry to the Firebase database.
@@ -32,6 +30,28 @@ export async function saveProject(project) {
     catch (error) {
         console.error('Error writing new message to Firebase Database', error);
     }
+}
+
+
+// Loads chat messages history and listens for upcoming ones.
+export function loadProject(fn) {
+    const col = collection(getFirestore(), "projects")
+    // const projects = []
+
+    onSnapshot(col, function (snapshot) {
+        snapshot.docChanges().forEach(function (change) {
+            if (change.type === 'added') {
+                fn(change)
+                // projects.push({
+                //     ...change.doc.data(),
+                //     id: change.doc.id
+                // })
+            }
+        });
+
+        // return projects
+    })
+
 }
 
 

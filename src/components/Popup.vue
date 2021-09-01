@@ -87,7 +87,7 @@ export default {
           title: this.title,
           content: this.content,
           due: dayjs(this.due).format("DD MMMM YYYY"),
-          status: "Ongoing",
+          status: "ongoing",
           person: "The Net Ninja",
         };
         saveProject(project).then(() => {
