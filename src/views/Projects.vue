@@ -83,7 +83,9 @@ export default {
   },
   computed: {
     myProject() {
-      return this.projects.filter((project) => project.person === "Yang Kai");
+      return this.projects.filter(
+        (project) => project.person === "The Net Ninja"
+      );
     },
   },
 };
