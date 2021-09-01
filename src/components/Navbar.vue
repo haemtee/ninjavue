@@ -7,11 +7,37 @@
         <span>Ninja</span>
       </v-app-bar-title>
       <v-spacer />
+
+      <!-- menu dropdown -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn depressed v-bind="attrs" v-on="on">
+            <v-icon left class="grey--text">mdi-chevron-down</v-icon>
+            <span class="grey--text">Menu</span>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="link in links"
+            :key="link.text"
+            router
+            :to="link.route"
+          >
+            <v-list-item-title class="grey--text">
+              {{ link.text }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
       <v-btn depressed class="grey lighten-4">
         <span class="grey--text lighten-4">SIGN OUT</span>
         <v-icon class="grey--text lighten-4" right>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
+
+    <!-- Side drawer -->
+
     <v-navigation-drawer v-model="drawer" app class="primary">
       <v-layout column align-center>
         <v-flex class="mt-10">
@@ -24,6 +50,9 @@
           <div class="text-center white--text caption mb-4">
             {{ profile.country }}
           </div>
+        </v-flex>
+        <v-flex>
+          <Popup />
         </v-flex>
       </v-layout>
 
@@ -48,9 +77,11 @@
 
 <script>
 import axios from "axios";
+import Popup from "./Popup.vue";
 
 export default {
   name: "Navbar",
+  components: { Popup },
   data() {
     return {
       profile: {

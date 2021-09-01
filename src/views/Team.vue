@@ -44,7 +44,7 @@ export default {
       team: [],
     };
   },
-  created() {
+  mounted() {
     axios
       .get("https://randomuser.me/api/?results=10&nat=us,fr,gb,au")
       .then((res) => {
